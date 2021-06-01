@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -19,6 +19,10 @@ export default () => {
       console.log(JSON.stringify(values, null, 2));
     },
   });
+
+  const inputForFocus = useRef(null);
+  useEffect(() => inputForFocus.current.focus());
+
   return (
     <div className="container-fluid flex-grow-1">
       <div className="row justify-content-center align-content-center h-100">
@@ -34,22 +38,22 @@ export default () => {
               </div>
               <form className="w-50" onSubmit={formik.handleSubmit}>
                 <h1 className="text-center mb-4">Войти</h1>
-                <div className="form-floating mb-3 form-group">
-                  <label htmlFor="username">Введите логин:</label>
+                <div className="form-floating mb-3">
                   <input
+                    type="email"
                     name="username"
-                    autoComplete="username"
                     required
-                    placeholder="Ваш ник"
+                    placeholder="ваш ник"
                     id="username"
                     className="form-control"
+                    ref={inputForFocus}
                   />
+                  <label htmlFor="username">Введите логин:</label>
                   {formik.touched.username && formik.errors.username ? (
                     <div>{formik.errors.username}</div>
                   ) : null}
                 </div>
-                <div className="form-floating mb-4 form-group">
-                  <label htmlFor="password">Введите пароль:</label>
+                <div className="form-floating mb-4">
                   <input
                     className="form-control"
                     type="password"
@@ -58,6 +62,7 @@ export default () => {
                     placeholder="Пароль"
                     id="password"
                   />
+                  <label htmlFor="password">Введите пароль:</label>
                   {formik.touched.password && formik.errors.password ? (
                     <div>{formik.errors.password}</div>
                   ) : null}
@@ -69,7 +74,7 @@ export default () => {
             </div>
             <div className="card-footer p-4">
               <div className="text-center">
-                <span className="mr-2">Нет аккаунта?</span>
+                <span className="me-2">Нет аккаунта?</span>
                 <a href="/signup">Регистрация</a>
               </div>
             </div>
