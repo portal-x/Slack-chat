@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import chanLogo from '../img/chatLogo.png';
+import chatLogo from '../img/chatLogo.png';
 
 export default () => {
   const formik = useFormik({
@@ -16,12 +16,13 @@ export default () => {
       password: Yup.string().required('Required'),
     }),
     onSubmit: (values) => {
+      console.log('🚀 ~ values', values);
       console.log(JSON.stringify(values, null, 2));
     },
   });
 
   const inputForFocus = useRef(null);
-  useEffect(() => inputForFocus.current.focus());
+  useEffect(() => inputForFocus.current.focus(), []);
 
   return (
     <div className="container-fluid flex-grow-1">
@@ -32,7 +33,7 @@ export default () => {
               <div>
                 <img
                   className="shadow-sm rounded-circle"
-                  src={chanLogo}
+                  src={chatLogo}
                   alt="Вход"
                 />
               </div>
@@ -40,13 +41,15 @@ export default () => {
                 <h1 className="text-center mb-4">Войти</h1>
                 <div className="form-floating mb-3">
                   <input
-                    type="email"
+                    type="text"
                     name="username"
                     required
                     placeholder="ваш ник"
                     id="username"
                     className="form-control"
                     ref={inputForFocus}
+                    onChange={formik.handleChange}
+                    value={formik.values.username}
                   />
                   <label htmlFor="username">Введите логин:</label>
                   {formik.touched.username && formik.errors.username ? (
@@ -61,6 +64,8 @@ export default () => {
                     required
                     placeholder="Пароль"
                     id="password"
+                    onChange={formik.handleChange}
+                    value={formik.values.password}
                   />
                   <label htmlFor="password">Введите пароль:</label>
                   {formik.touched.password && formik.errors.password ? (

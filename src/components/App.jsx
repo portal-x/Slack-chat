@@ -4,14 +4,22 @@ import {
   Switch,
   Route,
   Link,
-  useHistory,
+  Redirect,
 } from 'react-router-dom';
+// import axios from 'axios';
 
+import Chat from './Chat.jsx';
 import Login from './Login.jsx';
 import NoMatch from './NoMatch.jsx';
 
 export default () => {
   console.log('app is connected');
+  const isloggedIn = !!localStorage.getItem('user');
+
+  // axios.post('/api/v1/login', { username: 'log', password: 'kj' })
+  //   .then((response) => console.log('response:', response))
+  //   .catch((e) => console.log('err:', e));
+
   return (
     <Router>
       <div className="d-flex flex-column h-100">
@@ -33,7 +41,7 @@ export default () => {
             <Login />
           </Route>
           <Route exact path="/">
-            <Home />
+            {!isloggedIn ? <Redirect to="/login" /> : <Chat />}
           </Route>
           <Route>
             <NoMatch />
@@ -44,15 +52,17 @@ export default () => {
   );
 };
 
-function Home() {
-  const history = useHistory();
-  const handleClick = () => {
-    history.push('/login');
-  };
-  return (
-    <div className="card-body d-flex flex-column align-items-center p-5">
-      <h2 className="h-100 p-3">Home</h2>
-      <button type="button" onClick={handleClick} className="btn btn-success">Login</button>
-    </div>
-  );
-}
+// function Home() {
+//   const history = useHistory();
+//   const handleClick = () => {
+//     history.push('/login');
+//   };
+//   return (
+//     <div className="card-body d-flex flex-column align-items-center p-5">
+//       <h2 className="h-100 p-3">Home</h2>
+//       <button type="button" onClick={handleClick} className="btn btn-success">
+//         Login
+//       </button>
+//     </div>
+//   );
+// }
