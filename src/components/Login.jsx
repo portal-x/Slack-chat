@@ -2,10 +2,22 @@
 import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 import chatLogo from '../img/chatLogo.png';
 
 export default () => {
+  const history = useHistory();
+
+  // const sendData = async (values) => {
+  //   const response = await axios.post('/api/v1/login', values);
+  //   localStorage.setItem('user', JSON.stringify(response.data));
+  //   console.log('🚀 ~ values', values);
+  //   history.push('/');
+  //   console.log(JSON.stringify(values, null, 2));
+  // };
+
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -16,6 +28,15 @@ export default () => {
       password: Yup.string().required('Required'),
     }),
     onSubmit: (values) => {
+      axios
+        .post('/api/v1/login', values)
+        .then(({ data }) => {
+          localStorage.setItem('user', JSON.stringify(data));
+        })
+        .then(() => {
+          console.log('перенаправление...');
+          history.push('/');
+        });
       console.log('🚀 ~ values', values);
       console.log(JSON.stringify(values, null, 2));
     },
