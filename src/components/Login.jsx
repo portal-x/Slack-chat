@@ -1,18 +1,17 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useEffect, useRef, useContext } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
 import chatLogo from '../img/chatLogo.png';
-import UserContext from '../UserContext.jsx';
+import { UseUser } from '../UserContext.jsx';
 
 export default () => {
   const history = useHistory();
 
-  const user = useContext(UserContext);
-  const { setUser } = user;
+  const { setUser } = UseUser();
 
   const formik = useFormik({
     initialValues: {
