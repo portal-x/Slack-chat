@@ -1,14 +1,18 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
 import chatLogo from '../img/chatLogo.png';
+import UserContext from '../UserContext.jsx';
 
 export default () => {
   const history = useHistory();
+
+  const user = useContext(UserContext);
+  const { setUser } = user;
 
   // const sendData = async (values) => {
   //   const response = await axios.post('/api/v1/login', values);
@@ -27,18 +31,14 @@ export default () => {
       username: Yup.string().required('Required'),
       password: Yup.string().required('Required'),
     }),
-    onSubmit: (values) => {
-      axios
-        .post('/api/v1/login', values)
-        .then(({ data }) => {
-          localStorage.setItem('user', JSON.stringify(data));
-        })
-        .then(() => {
-          console.log('перенаправление...');
-          history.push('/');
-        });
-      console.log('🚀 ~ values', values);
-      console.log(JSON.stringify(values, null, 2));
+    onSubmit: async (values) => {
+      const response = await axios.post('/api/v1/login', values);
+      const authUser = JSON.stringify(response.data);
+      localStorage.setItem('user', authUser);
+      console.log('user status:', localStorage.getItem('user'), 'перенаправление...');
+      setUser(authUser);
+      history.push('/');
+      console.log('🚀 ~ values after history.push', values);
     },
   });
 
