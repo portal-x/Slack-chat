@@ -16,15 +16,10 @@ import UserContext from '../UserContext.jsx';
 export default () => {
   console.log('app is rendering...');
 
-  const [user, setUser] = useState();
-
   const prewUserData = localStorage.getItem('user');
-  if (prewUserData) {
-    console.log('storage with user');
-    const prewUser = JSON.parse(prewUserData).username;
-    console.log('🚀 ~ prewUser', prewUser);
-    // setUser(prewUser);
-  }
+  const prewUser = JSON.parse(prewUserData)?.username;
+
+  const [user, setUser] = useState(prewUser || null);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

@@ -14,14 +14,6 @@ export default () => {
   const user = useContext(UserContext);
   const { setUser } = user;
 
-  // const sendData = async (values) => {
-  //   const response = await axios.post('/api/v1/login', values);
-  //   localStorage.setItem('user', JSON.stringify(response.data));
-  //   console.log('🚀 ~ values', values);
-  //   history.push('/');
-  //   console.log(JSON.stringify(values, null, 2));
-  // };
-
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -35,10 +27,8 @@ export default () => {
       const response = await axios.post('/api/v1/login', values);
       const authUser = JSON.stringify(response.data);
       localStorage.setItem('user', authUser);
-      console.log('user status:', localStorage.getItem('user'), 'перенаправление...');
       setUser(authUser);
       history.push('/');
-      console.log('🚀 ~ values after history.push', values);
     },
   });
 
