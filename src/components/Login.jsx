@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -10,6 +10,7 @@ import { UseUser } from '../UserContext.jsx';
 
 export default () => {
   const history = useHistory();
+  const [error, setError] = useState(null);
 
   const { setUser } = UseUser();
 
@@ -23,11 +24,16 @@ export default () => {
       password: Yup.string().required('Required'),
     }),
     onSubmit: async (values) => {
-      const response = await axios.post('/api/v1/login', values);
-      const authUser = JSON.stringify(response.data);
-      localStorage.setItem('user', authUser);
-      setUser(authUser);
-      history.push('/');
+      try {
+        const response = await axios.post('/api/v1/login', values);
+        const authUser = JSON.stringify(response.data);
+        localStorage.setItem('user', authUser);
+        setUser(authUser);
+        console.log('ошибки:', formik.errors);
+        history.push('/');
+      } catch (e) {
+        setError('Неверные имя пользователя или пароль');
+      }
     },
   });
 
@@ -78,6 +84,7 @@ export default () => {
                     value={formik.values.password}
                   />
                   <label htmlFor="password">Введите пароль:</label>
+                  {error && <div className="alert alert-danger">{error}</div>}
                   {formik.touched.password && formik.errors.password ? (
                     <div>{formik.errors.password}</div>
                   ) : null}
