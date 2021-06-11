@@ -25,11 +25,11 @@ export default () => {
     }),
     onSubmit: async (values) => {
       try {
+        console.log('values:', values);
         const response = await axios.post('/api/v1/login', values);
         const authUser = JSON.stringify(response.data);
         localStorage.setItem('user', authUser);
         setUser(authUser);
-        console.log('ошибки:', formik.errors);
         history.push('/');
       } catch (e) {
         setError('Неверные имя пользователя или пароль');

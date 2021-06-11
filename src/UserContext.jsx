@@ -5,7 +5,7 @@ export const UseUser = () => useContext(UserContext);
 
 export const UserProvider = ({ children }) => {
   const prewUserData = localStorage.getItem('user');
-  const prewUser = JSON.parse(prewUserData)?.username;
+  const prewUser = JSON.parse(prewUserData);
 
   const [user, setUser] = useState(prewUser || null);
 
