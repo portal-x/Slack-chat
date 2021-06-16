@@ -7,7 +7,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 
-import Chat from './Chat.jsx';
+import Chat from './chat/Chat.jsx';
 import Login from './Login.jsx';
 import NoMatch from './NoMatch.jsx';
 import { UserProvider, UseUser } from '../UserContext.jsx';
