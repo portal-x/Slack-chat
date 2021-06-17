@@ -1,4 +1,6 @@
-import { Col, Button, Dropdown, ButtonGroup } from 'react-bootstrap';
+import {
+  Col, Button, Dropdown, ButtonGroup,
+} from 'react-bootstrap';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { uniqueId } from 'lodash';
