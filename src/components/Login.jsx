@@ -12,7 +12,7 @@ export default () => {
   const history = useHistory();
   const [error, setError] = useState(null);
 
-  const { setUser, user } = UseUser();
+  const { setUser } = UseUser();
 
   const formik = useFormik({
     initialValues: {
