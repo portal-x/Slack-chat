@@ -10,10 +10,10 @@ import {
 import Chat from './chat/Chat.jsx';
 import Login from './Login.jsx';
 import NoMatch from './NoMatch.jsx';
-import { UserProvider, UseUser } from '../UserContext.jsx';
+import { UseUser } from '../UserContext.jsx';
 
-const Main = () => {
-  console.log('Main is rendering...');
+export default () => {
+  console.log('App is rendering...');
 
   return (
     <Router>
@@ -44,14 +44,5 @@ const Main = () => {
         </Switch>
       </div>
     </Router>
-  );
-};
-
-export default () => {
-  console.log('render app...');
-  return (
-    <UserProvider>
-      <Main />
-    </UserProvider>
   );
 };

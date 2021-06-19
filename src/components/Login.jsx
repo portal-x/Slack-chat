@@ -12,7 +12,7 @@ export default () => {
   const history = useHistory();
   const [error, setError] = useState(null);
 
-  const { setUser } = UseUser();
+  const { setUser, user } = UseUser();
 
   const formik = useFormik({
     initialValues: {
@@ -25,11 +25,9 @@ export default () => {
     }),
     onSubmit: async (values) => {
       try {
-        console.log('values:', values);
-        const response = await axios.post('/api/v1/login', values);
-        const authUser = JSON.stringify(response.data);
-        localStorage.setItem('user', authUser);
+        const { data: authUser } = await axios.post('/api/v1/login', values);
         setUser(authUser);
+        localStorage.setItem('user', JSON.stringify(authUser));
         history.push('/');
       } catch (e) {
         setError('Неверные имя пользователя или пароль');

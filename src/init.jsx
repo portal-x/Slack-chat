@@ -11,12 +11,15 @@ import { Provider } from 'react-redux';
 
 import App from './components/App.jsx';
 import store from './redux/store.js';
+import { UserProvider } from './UserContext.jsx';
 
 export default () => {
   ReactDOM.render(
-    <Provider store={store}>
-      <App />
-    </Provider>,
+    <UserProvider>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </UserProvider>,
     document.querySelector('#chat'),
   );
 };
