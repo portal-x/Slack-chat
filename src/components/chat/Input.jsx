@@ -3,7 +3,7 @@ import React from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { uniqueId } from 'lodash';
+// import { uniqueId } from 'lodash';
 
 import { addMessages, selectCurrentChannelID } from '../../redux/chatSlise';
 import { UseUser } from '../../UserContext.jsx';
@@ -26,7 +26,7 @@ export default () => {
         chanalId: currentChanalId,
         text: message,
         user: username,
-        id: uniqueId(),
+        // id: Number(uniqueId()),
       }),
     );
     resetForm();
