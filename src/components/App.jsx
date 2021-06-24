@@ -10,7 +10,7 @@ import {
 import Chat from './chat/Chat.jsx';
 import Login from './Login.jsx';
 import NoMatch from './NoMatch.jsx';
-import { UseUser } from '../UserContext.jsx';
+import { UseUser } from '../context/UserContext.jsx';
 
 export default () => {
   console.log('App is rendering...');

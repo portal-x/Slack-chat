@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 // import { uniqueId } from 'lodash';
 
 import { addMessages, selectCurrentChannelID } from '../../redux/chatSlise';
-import { UseUser } from '../../UserContext.jsx';
+import { UseUser } from '../../context/UserContext.jsx';
 
 const shema = Yup.object().shape({
   message: Yup.string().required(),

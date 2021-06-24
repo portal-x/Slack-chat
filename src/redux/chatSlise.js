@@ -1,9 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+// import { io } from 'socket.io-client';
+
+// const socket = io();
 
 export const initChat = createAsyncThunk('chat/initChat', async (token) => {
   const headers = { Authorization: `Bearer ${token}` };
   const response = await axios.get('/api/v1/data', { headers });
+  // socket.auth.token = token;
+  // socket.connect();
+
   return response.data;
 });
 
@@ -44,6 +50,13 @@ export const slice = createSlice({
 });
 
 export const { addChannel, setCurrentChanelId, addMessages } = slice.actions;
+
+// export const addMessage = (message) => (dispatch) => {
+//   dispatch(addMessages(message));
+//   socket.emit('newMessage', (response) => {
+//     console.log(response.status);
+//   });
+// };
 
 export const selectChanels = (state) => state.chatReduser.channels;
 export const selectMssages = (state) => state.chatReduser.messages;

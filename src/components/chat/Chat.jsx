@@ -3,7 +3,8 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { initChat, selectInitStatus } from '../../redux/chatSlise.js';
 
-import { UseUser } from '../../UserContext.jsx';
+import { UseUser } from '../../context/UserContext.jsx';
+import { UseSocket } from '../../context/SocketContext.jsx';
 import ChatBody from './ChatBody.jsx';
 import Loading from './Loading.jsx';
 import NetworkProblem from './NetworkProblem.jsx';
@@ -17,10 +18,15 @@ const maping = {
 export default () => {
   console.log('chat is connected');
   const dispatch = useDispatch();
+  const socket = UseSocket();
 
   const { user } = UseUser();
   useEffect(() => {
     dispatch(initChat(user.token));
+    socket.connect();
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   const initStatus = useSelector(selectInitStatus);

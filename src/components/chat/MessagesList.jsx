@@ -31,7 +31,7 @@ export default () => {
           </span>
         </div>
         <div className="chat-messages overflow-auto px-5" id="messages-box">
-          mess was here
+          mess will be here...
           {channelMess.map(({ user, text }) => (
             <div className="text-break mb-2">
               <b>{user}</b>

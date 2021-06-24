@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
 import chatLogo from '../img/chatLogo.png';
-import { UseUser } from '../UserContext.jsx';
+import { UseUser } from '../context/UserContext.jsx';
 
 export default () => {
   const history = useHistory();
