@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { addMessages, selectCurrentChannelID } from '../../redux/chatSlise';
 import { UseUser } from '../../context/UserContext.jsx';
+import { UseSocket } from '../../context/SocketContext.jsx';
 
 const shema = Yup.object().shape({
   message: Yup.string().required(),
@@ -15,20 +16,23 @@ const shema = Yup.object().shape({
 export default () => {
   const dispatch = useDispatch;
   const currentChanalId = useSelector(selectCurrentChannelID);
-  const {
-    user: { username },
-  } = UseUser();
+  const { user: { username } } = UseUser();
+  const socket = UseSocket();
 
   const sendMess = ({ message }, { resetForm }) => {
     console.log('submit...', message);
-    dispatch(
-      addMessages({
-        chanalId: currentChanalId,
-        text: message,
-        user: username,
-        // id: Number(uniqueId()),
-      }),
-    );
+    const messContainer = {
+      chanalId: currentChanalId,
+      text: message,
+      user: username,
+      // id: Number(uniqueId()),
+    };
+    socket.emit('newMessage', messContainer, (response) => {
+      console.log('статус сообщения:', response.status);
+    });
+    // dispatch(
+    //   addMessages(messContainer),
+    // );
     resetForm();
   };
   return (

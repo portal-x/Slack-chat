@@ -1,8 +1,9 @@
 import { Col } from 'react-bootstrap';
 import React from 'react';
 import { useSelector } from 'react-redux';
+import {uniqueId} from 'lodash';
 
-import { selectCurrentChannelID, selectMssages } from '../../redux/chatSlise';
+import { selectChanels, selectCurrentChannelID, selectMssages } from '../../redux/chatSlise';
 import Input from './Input.jsx';
 
 const buildwordEnding = (numPosts) => {
@@ -14,9 +15,13 @@ const buildwordEnding = (numPosts) => {
 export default () => {
   const messages = useSelector(selectMssages);
   const currentChanalId = useSelector(selectCurrentChannelID);
+  const channels = useSelector(selectChanels);
+
+  const { name: currentChan } = channels.find(({ id }) => id === currentChanalId);
   const channelMess = messages.filter(
     (mess) => mess.chanalId === currentChanalId,
   );
+  console.log('сообщения текущего канала:', channelMess);
   const messCount = channelMess.length;
 
   return (
@@ -24,18 +29,22 @@ export default () => {
       <div className="d-flex flex-column h-100">
         <div className="bg-light mb-4 p-3 shadow-sm small">
           <p className="m-0">
-            <b>#</b>
+            <b>
+              #
+              &nbsp;
+              {currentChan}
+            </b>
           </p>
           <span className="text-muted">
             {`${messCount} сообщени${buildwordEnding(messCount)}`}
           </span>
         </div>
         <div className="chat-messages overflow-auto px-5" id="messages-box">
-          mess will be here...
           {channelMess.map(({ user, text }) => (
-            <div className="text-break mb-2">
+            <div className="text-break mb-2" key={uniqueId()}>
               <b>{user}</b>
               :
+              &nbsp;
               {text}
             </div>
           ))}

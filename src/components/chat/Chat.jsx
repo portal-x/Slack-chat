@@ -1,7 +1,7 @@
 import { Container } from 'react-bootstrap';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { initChat, selectInitStatus } from '../../redux/chatSlise.js';
+import { initChat, selectInitStatus, addMessages } from '../../redux/chatSlise.js';
 
 import { UseUser } from '../../context/UserContext.jsx';
 import { UseSocket } from '../../context/SocketContext.jsx';
@@ -30,6 +30,9 @@ export default () => {
   }, []);
 
   const initStatus = useSelector(selectInitStatus);
+  socket.on('newMessage', (mess) => {
+    dispatch(addMessages(mess));
+  });
 
   return (
     <Container className="h-100 my-4 owerflow-giden rounded shadow">
