@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -13,7 +13,7 @@ import NoMatch from './NoMatch.jsx';
 import { UseUser } from '../context/UserContext.jsx';
 
 export default () => {
-  console.log('App is rendering...');
+  console.log('App is connected...');
 
   return (
     <Router>

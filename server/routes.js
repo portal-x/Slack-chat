@@ -43,9 +43,9 @@ export default (app, defaultState = {}) => {
   const state = buildState(defaultState);
 
   app.io.on('connect', (socket) => {
-    console.log('id info:', { 'socket.id': socket.id });
+    console.log('---------> id info:', { 'socket.id': socket.id });
 
-    socket.on('disconnect', (reason) => {
+    socket.on('disconnect', (reason) => { // for remove
       console.log('причина дисконекта:', reason);
     });
 
@@ -57,6 +57,8 @@ export default (app, defaultState = {}) => {
       state.messages.push(messageWithId);
       acknowledge({ status: 'ok' });
       app.io.emit('newMessage', messageWithId);
+      console.log('......отправка на клиент:', messageWithId); // for remove
+      console.log('===> текущие соединения:', app.io.allSockets()); // for remove
     });
 
     socket.on('newChannel', (channel, acknowledge = _.noop) => {

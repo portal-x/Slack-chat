@@ -1,10 +1,11 @@
 import { Col } from 'react-bootstrap';
 import React from 'react';
-import { useSelector } from 'react-redux';
-import {uniqueId} from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
+import { uniqueId } from 'lodash';
 
-import { selectChanels, selectCurrentChannelID, selectMssages } from '../../redux/chatSlise';
+import { addMessages, selectChanels, selectCurrentChannelID, selectMssages } from '../../redux/chatSlise';
 import Input from './Input.jsx';
+import { UseSocket } from '../../context/SocketContext.jsx';
 
 const buildwordEnding = (numPosts) => {
   if (numPosts === 1) return 'е';
@@ -13,6 +14,7 @@ const buildwordEnding = (numPosts) => {
 };
 
 export default () => {
+  console.log('messagessList render...');
   const messages = useSelector(selectMssages);
   const currentChanalId = useSelector(selectCurrentChannelID);
   const channels = useSelector(selectChanels);
@@ -21,8 +23,16 @@ export default () => {
   const channelMess = messages.filter(
     (mess) => mess.chanalId === currentChanalId,
   );
-  console.log('сообщения текущего канала:', channelMess);
   const messCount = channelMess.length;
+
+  // const dispatch = useDispatch();
+  // const socket = UseSocket();
+  // const sendMess = (mess) => {
+  //   console.log('новое сообщение:', mess);
+  //   dispatch(addMessages(mess));
+  // };
+
+  // socket.on('newMessage', sendMess);
 
   return (
     <Col className="p-0 h-100">

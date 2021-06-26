@@ -25,7 +25,6 @@ export default () => {
       chanalId: currentChanalId,
       text: message,
       user: username,
-      // id: Number(uniqueId()),
     };
     socket.emit('newMessage', messContainer, (response) => {
       console.log('статус сообщения:', response.status);
