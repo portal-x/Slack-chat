@@ -1,5 +1,5 @@
 import { Col } from 'react-bootstrap';
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { uniqueId } from 'lodash';
 
@@ -25,14 +25,16 @@ export default () => {
   );
   const messCount = channelMess.length;
 
-  // const dispatch = useDispatch();
-  // const socket = UseSocket();
-  // const sendMess = (mess) => {
-  //   console.log('новое сообщение:', mess);
-  //   dispatch(addMessages(mess));
-  // };
+  const socket = UseSocket();
+  const dispatch = useDispatch();
 
-  // socket.on('newMessage', sendMess);
+  useLayoutEffect(() => {
+    const sendMess = (mess) => {
+      console.log('новое сообщение:', mess);
+      dispatch(addMessages(mess));
+    };
+    socket.on('newMessage', sendMess);
+  }, []);
 
   return (
     <Col className="p-0 h-100">
