@@ -1,5 +1,5 @@
 import { Form, InputGroup, Button } from 'react-bootstrap';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useSelector } from 'react-redux';
@@ -19,6 +19,9 @@ export default () => {
 
   const [sendStatus, changeSendStatus] = useState('ok');
 
+  const inputRef = useRef(null);
+  useEffect(() => inputRef.current.focus(), []);
+
   const sendMess = async ({ message }, { resetForm }) => {
     console.log('submit...', message);
     changeSendStatus('sending');
@@ -32,15 +35,14 @@ export default () => {
       console.log('статус сообщения:', res.status);
       if (sendStatus === 'ok') {
         changeSendStatus(sendStatus);
-        console.log('sended');
-      } else {
-        console.log('waiting for network connection, not sended');
+        inputRef.current.focus();
       }
     };
 
     socket.emit('newMessage', messContainer, await response);
     resetForm();
   };
+
   return (
     <Formik
       validationSchema={shema}
@@ -62,6 +64,7 @@ export default () => {
               value={values.message}
               onChange={handleChange}
               disabled={sendStatus === 'sending'}
+              ref={inputRef}
             />
             <div className="input-group-append">
               <Button
