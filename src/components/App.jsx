@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -6,14 +6,23 @@ import {
   Link,
   Redirect,
 } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
+import { UseUser } from '../context/UserContext.jsx';
+import { UseSocket } from '../context/SocketContext.jsx';
+import { addMessages } from '../redux/chatSlise.js';
 import Chat from './chat/Chat.jsx';
 import Login from './Login.jsx';
 import NoMatch from './NoMatch.jsx';
-import { UseUser } from '../context/UserContext.jsx';
 
 export default () => {
   console.log('App is connected...');
+  const socket = UseSocket();
+  const dispatch = useDispatch();
+
+  socket.on('newMessage', (mess) => {
+    dispatch(addMessages(mess));
+  });
 
   return (
     <Router>

@@ -1,12 +1,10 @@
 import { Col } from 'react-bootstrap';
-import React, { useLayoutEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { uniqueId } from 'lodash';
-import ScrollableFeed from 'react-scrollable-feed';
 
-import { addMessages, selectChanels, selectCurrentChannelID, selectMssages } from '../../redux/chatSlise';
+import { selectChanels, selectCurrentChannelID, selectMssages } from '../../redux/chatSlise';
 import Input from './Input.jsx';
-import { UseSocket } from '../../context/SocketContext.jsx';
 
 const buildwordEnding = (numPosts) => {
   if (numPosts === 1) return 'е';
@@ -26,16 +24,13 @@ export default () => {
   );
   const messCount = channelMess.length;
 
-  const socket = UseSocket();
-  const dispatch = useDispatch();
-
-  useLayoutEffect(() => {
-    const sendMess = (mess) => {
-      console.log('новое сообщение:', mess);
-      dispatch(addMessages(mess));
-    };
-    socket.on('newMessage', sendMess);
-  }, []);
+  const messagesEndRef = useRef(null);
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+  useEffect(() => {
+    scrollToBottom();
+  }, [channelMess]);
 
   return (
     <Col className="p-0 h-100">
@@ -53,16 +48,15 @@ export default () => {
           </span>
         </div>
         <div className="chat-messages overflow-auto px-5" id="messages-box">
-          <ScrollableFeed>
-            {channelMess.map(({ user, text }) => (
-              <div className="text-break mb-2" key={uniqueId()}>
-                <b>{user}</b>
-                :
-                &nbsp;
-                {text}
-              </div>
-            ))}
-          </ScrollableFeed>
+          {channelMess.map(({ user, text }) => (
+            <div className="text-break mb-2" key={uniqueId()}>
+              <b>{user}</b>
+              :
+              &nbsp;
+              {text}
+            </div>
+          ))}
+          <div ref={messagesEndRef} />
         </div>
         <div className="mt-auto px-5 py-3">
           <Input />
