@@ -1,11 +1,10 @@
 import { Form, InputGroup, Button } from 'react-bootstrap';
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { useDispatch, useSelector } from 'react-redux';
-// import { uniqueId } from 'lodash';
+import { useSelector } from 'react-redux';
 
-import { addMessages, selectCurrentChannelID } from '../../redux/chatSlise';
+import { selectCurrentChannelID } from '../../redux/chatSlise';
 import { UseUser } from '../../context/UserContext.jsx';
 import { UseSocket } from '../../context/SocketContext.jsx';
 
@@ -14,24 +13,32 @@ const shema = Yup.object().shape({
 });
 
 export default () => {
-  const dispatch = useDispatch;
   const currentChanalId = useSelector(selectCurrentChannelID);
   const { user: { username } } = UseUser();
   const socket = UseSocket();
 
-  const sendMess = ({ message }, { resetForm }) => {
+  const [sendStatus, changeSendStatus] = useState('ok');
+
+  const sendMess = async ({ message }, { resetForm }) => {
     console.log('submit...', message);
+    changeSendStatus('sending');
     const messContainer = {
       chanalId: currentChanalId,
       text: message,
       user: username,
     };
-    socket.emit('newMessage', messContainer, (response) => {
-      console.log('статус сообщения:', response.status);
-    });
-    // dispatch(
-    //   addMessages(messContainer),
-    // );
+
+    const response = (res) => {
+      console.log('статус сообщения:', res.status);
+      if (sendStatus === 'ok') {
+        changeSendStatus(sendStatus);
+        console.log('sended');
+      } else {
+        console.log('waiting for network connection, not sended');
+      }
+    };
+
+    socket.emit('newMessage', messContainer, await response);
     resetForm();
   };
   return (
@@ -54,6 +61,7 @@ export default () => {
               placeholder="Введите сообщение..."
               value={values.message}
               onChange={handleChange}
+              disabled={sendStatus === 'sending'}
             />
             <div className="input-group-append">
               <Button

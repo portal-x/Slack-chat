@@ -2,6 +2,7 @@ import { Col } from 'react-bootstrap';
 import React, { useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { uniqueId } from 'lodash';
+import ScrollableFeed from 'react-scrollable-feed';
 
 import { addMessages, selectChanels, selectCurrentChannelID, selectMssages } from '../../redux/chatSlise';
 import Input from './Input.jsx';
@@ -52,14 +53,16 @@ export default () => {
           </span>
         </div>
         <div className="chat-messages overflow-auto px-5" id="messages-box">
-          {channelMess.map(({ user, text }) => (
-            <div className="text-break mb-2" key={uniqueId()}>
-              <b>{user}</b>
-              :
-              &nbsp;
-              {text}
-            </div>
-          ))}
+          <ScrollableFeed>
+            {channelMess.map(({ user, text }) => (
+              <div className="text-break mb-2" key={uniqueId()}>
+                <b>{user}</b>
+                :
+                &nbsp;
+                {text}
+              </div>
+            ))}
+          </ScrollableFeed>
         </div>
         <div className="mt-auto px-5 py-3">
           <Input />

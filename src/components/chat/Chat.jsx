@@ -27,7 +27,7 @@ export default () => {
   const initStatus = useSelector(selectInitStatus);
 
   return (
-    <Container className="h-100 my-4 owerflow-giden rounded shadow">
+    <Container className="h-100 my-4 overflow-hidden rounded shadow">
       {maping[initStatus]}
     </Container>
   );
