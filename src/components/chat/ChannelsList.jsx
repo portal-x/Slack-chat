@@ -10,6 +10,7 @@ import {
   selectCurrentChannelID,
   setCurrentChanelId,
 } from '../../redux/chatSlise';
+import AddChanalModal from './modals/addChanal.jsx';
 
 const renderChannel = (channel) => {
   const dispatch = useDispatch();
@@ -27,23 +28,22 @@ const renderChannel = (channel) => {
       {name}
     </Button>
   );
-  const CustomChannel = () => {
+
+  const CustomChannel = () => (
     <Dropdown as={ButtonGroup}>
       <MainChannel />
-
       <Dropdown.Toggle
         split
         variant={buttonVariant}
         id="dropdown-split-basic"
       />
-
       <Dropdown.Menu>
         <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
         <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
         <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
       </Dropdown.Menu>
-    </Dropdown>;
-  };
+    </Dropdown>
+  );
 
   return (
     <li className="nav-item" key={uniqueId()}>
@@ -56,16 +56,19 @@ export default () => {
   const channels = useSelector(selectChanels);
 
   return (
-    <Col xs={12} md={2} className="border-end pt-5 px-0 bg-light">
-      <div className="d-flex justify-content-between mb-2 px-4">
-        <span>Каналы</span>
-        <Button variant="outline-primary" className="px-2 py-0" size="sm">
-          +
-        </Button>
-      </div>
-      <ul className="nav nav-pills nav-fill flex-column">
-        {channels.map(renderChannel)}
-      </ul>
-    </Col>
+    <>
+      <Col xs={12} md={2} className="border-end pt-5 px-0 bg-light">
+        <div className="d-flex justify-content-between mb-2 px-4">
+          <span>Каналы</span>
+          <Button variant="outline-primary" className="px-2 py-0" size="sm">
+            +
+          </Button>
+        </div>
+        <ul className="nav nav-pills nav-fill flex-column">
+          {channels.map(renderChannel)}
+        </ul>
+      </Col>
+      <AddChanalModal />
+    </>
   );
 };
