@@ -1,14 +1,17 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectShowAddChan, switchAddChan } from '../../../redux/modalSlise';
 
-export default ({a}) => {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+export default () => {
+  const dispatch = useDispatch();
+  const showModal = useSelector(selectShowAddChan);
+  const handleClose = () => {
+    dispatch(switchAddChan());
+  };
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={showModal} onHide={handleClose} centered>
       <Modal.Header closeButton>
         <Modal.Title>Modal heading</Modal.Title>
       </Modal.Header>

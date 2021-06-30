@@ -1,6 +1,4 @@
-import {
-  Col, Button, Dropdown, ButtonGroup,
-} from 'react-bootstrap';
+import { Col, Button, Dropdown, ButtonGroup } from 'react-bootstrap';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { uniqueId } from 'lodash';
@@ -11,6 +9,7 @@ import {
   setCurrentChanelId,
 } from '../../redux/chatSlise';
 import AddChanalModal from './modals/addChanal.jsx';
+import { switchAddChan } from '../../redux/modalSlise';
 
 const renderChannel = (channel) => {
   const dispatch = useDispatch();
@@ -54,13 +53,22 @@ const renderChannel = (channel) => {
 
 export default () => {
   const channels = useSelector(selectChanels);
+  const dispatch = useDispatch();
+  const handleClick = () => {
+    dispatch(switchAddChan());
+  };
 
   return (
     <>
       <Col xs={12} md={2} className="border-end pt-5 px-0 bg-light">
         <div className="d-flex justify-content-between mb-2 px-4">
           <span>Каналы</span>
-          <Button variant="outline-primary" className="px-2 py-0" size="sm">
+          <Button
+            variant="outline-primary"
+            className="px-2 py-0"
+            size="sm"
+            onClick={handleClick}
+          >
             +
           </Button>
         </div>
