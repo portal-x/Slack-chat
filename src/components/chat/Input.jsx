@@ -25,7 +25,7 @@ export default () => {
   const sendMess = async ({ message }, { resetForm }) => {
     console.log('submit...', message);
     changeSendStatus('sending');
-    const messContainer = {
+    const container = {
       chanalId: currentChanalId,
       text: message,
       user: username,
@@ -39,7 +39,7 @@ export default () => {
       }
     };
 
-    socket.emit('newMessage', messContainer, await response);
+    socket.emit('newMessage', container, await response);
     resetForm();
   };
 

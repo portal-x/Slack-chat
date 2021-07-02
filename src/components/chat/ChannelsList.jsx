@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { uniqueId } from 'lodash';
 
 import {
-  selectChanels,
+  selectChannels,
   selectCurrentChannelID,
   setCurrentChanelId,
 } from '../../redux/chatSlise';
@@ -57,7 +57,7 @@ const renderChannel = (channel) => {
 };
 
 export default () => {
-  const channels = useSelector(selectChanels);
+  const channels = useSelector(selectChannels);
   const dispatch = useDispatch();
   const handleClick = () => {
     dispatch(switchAddChan());

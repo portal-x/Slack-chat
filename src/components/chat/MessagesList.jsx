@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { uniqueId } from 'lodash';
 
-import { selectChanels, selectCurrentChannelID, selectMssages } from '../../redux/chatSlise';
+import { selectChannels, selectCurrentChannelID, selectMssages } from '../../redux/chatSlise';
 import Input from './Input.jsx';
 
 const buildwordEnding = (numPosts) => {
@@ -16,7 +16,7 @@ export default () => {
   console.log('messagessList render...');
   const messages = useSelector(selectMssages);
   const currentChanalId = useSelector(selectCurrentChannelID);
-  const channels = useSelector(selectChanels);
+  const channels = useSelector(selectChannels);
 
   const { name: currentChan } = channels.find(({ id }) => id === currentChanalId);
   const channelMess = messages.filter(

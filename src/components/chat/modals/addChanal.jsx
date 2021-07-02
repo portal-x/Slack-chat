@@ -1,13 +1,17 @@
-import React from 'react';
-import { Modal, Button, Form, InputGroup } from 'react-bootstrap';
+import React, { useEffect, useRef } from 'react';
+import { Modal, Button, Form } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { selectShowAddChan, switchAddChan } from '../../../redux/modalSlise';
+import { selectChannels } from '../../../redux/chatSlise';
 
 export default () => {
+  console.log('modal is render...');
   const dispatch = useDispatch();
+  const channals = useSelector(selectChannels)
+    .map(({ name }) => name);
   const showModal = useSelector(selectShowAddChan);
 
   const handleClose = () => {
@@ -15,18 +19,23 @@ export default () => {
   };
 
   const shema = Yup.object().shape({
-    channalName: Yup.string().required().min(3),
+    channalName: Yup.string()
+      .required('Обязательное поле')
+      .min(3, 'От 3 до 20 символов')
+      .max(20, 'От 3 до 20 символов')
+      .notOneOf(channals, 'Должно быть уникальным'),
   });
 
-  const sendChanName = ({ channalName }, { resetForm }) => {
+  const inputRef = useRef(null);
+  console.log("🚀 ~ inputRef", inputRef);
+  // useEffect(() => inputRef.current.focus(), [showModal]);
+
+  const sendChanName = ({ channalName }) => {
     console.log('submit...', channalName);
-    console.log('!!!');
-    // changeSendStatus('sending');
-    // const messContainer = {
-    //   chanalId: currentChanalId,
-    //   text: message,
-    //   user: username,
-    // };
+    const container = {
+      name: channalName,
+      removable: false,
+    };
 
     // const response = (res) => {
     //   console.log('статус сообщения:', res.status);
@@ -37,7 +46,7 @@ export default () => {
     // };
 
     // socket.emit('newMessage', messContainer, response);
-    resetForm();
+    handleClose();
   };
 
   return (
@@ -54,6 +63,7 @@ export default () => {
       <Modal.Body>
         <Formik
           validationSchema={shema}
+          validateOnChange={false}
           onSubmit={sendChanName}
           initialValues={{
             channalName: '',
@@ -61,10 +71,7 @@ export default () => {
         >
           {({
             handleSubmit, handleChange, values, isValid, errors,
-          }) => {
-            console.log('isValid:', isValid);
-            console.log('errors:', errors);
-            return (
+          }) => (
             <Form onSubmit={handleSubmit}>
               <Form.Group controlId="validationFormik01">
                 <Form.Control
@@ -73,9 +80,9 @@ export default () => {
                   placeholder="Имя канала"
                   value={values.channalName}
                   onChange={handleChange}
-                  required
                   className="mb-2"
-                  isInvalid={!!errors.channalName}
+                  isInvalid={!isValid}
+                  ref={inputRef}
                 />
                 <Form.Control.Feedback type="invalid">
                   {errors.channalName}
@@ -93,8 +100,7 @@ export default () => {
                 </Button>
               </div>
             </Form>
-          )
-          }}
+          )}
         </Formik>
       </Modal.Body>
     </Modal>

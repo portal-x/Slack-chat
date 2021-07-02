@@ -46,7 +46,7 @@ export const slice = createSlice({
 
 export const { addChannel, setCurrentChanelId, addMessages } = slice.actions;
 
-export const selectChanels = (state) => state.chatReduser.channels;
+export const selectChannels = (state) => state.chatReduser.channels;
 export const selectMssages = (state) => state.chatReduser.messages;
 export const selectCurrentChannelID = (state) => state.chatReduser.currentChannelID;
 export const selectInitStatus = (state) => state.chatReduser.initStatus;
