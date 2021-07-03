@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 
 import { UseUser } from '../context/UserContext.jsx';
 import { UseSocket } from '../context/SocketContext.jsx';
-import { addMessages } from '../redux/chatSlise.js';
+import { addChannel, addMessages, selectCurrentChannelID } from '../redux/chatSlise.js';
 import Chat from './chat/Chat.jsx';
 import Login from './Login.jsx';
 import NoMatch from './NoMatch.jsx';
@@ -22,6 +22,11 @@ export default () => {
 
   socket.on('newMessage', (mess) => {
     dispatch(addMessages(mess));
+  });
+  socket.on('newChannel', (channal) => {
+    console.log("🚀 ~ socket.on ~ channal", channal.id);
+    dispatch(addChannel(channal));
+    dispatch(selectCurrentChannelID(channal.id));
   });
 
   return (

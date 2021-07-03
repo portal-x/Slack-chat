@@ -71,6 +71,7 @@ export default (app, defaultState = {}) => {
       state.channels.push(channelWithId);
       acknowledge({ status: 'ok', data: channelWithId });
       app.io.emit('newChannel', channelWithId);
+      console.log('......отправка на клиент:', channelWithId); // for remove
     });
 
     socket.on('removeChannel', ({ id }, acknowledge = _.noop) => {

@@ -6,9 +6,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { selectShowAddChan, switchAddChan } from '../../../redux/modalSlise';
 import { selectChannels } from '../../../redux/chatSlise';
+import { UseSocket } from '../../../context/SocketContext.jsx';
 
 export default () => {
-  console.log('modal is render...');
+  const socket = UseSocket();
   const dispatch = useDispatch();
   const channals = useSelector(selectChannels)
     .map(({ name }) => name);
@@ -26,26 +27,20 @@ export default () => {
       .notOneOf(channals, 'Должно быть уникальным'),
   });
 
-  const inputRef = useRef(null);
-  console.log("🚀 ~ inputRef", inputRef);
-  // useEffect(() => inputRef.current.focus(), [showModal]);
+  const inputRef = useRef();
+  useEffect(() => inputRef.current && inputRef.current.focus());
 
   const sendChanName = ({ channalName }) => {
     console.log('submit...', channalName);
     const container = {
       name: channalName,
-      removable: false,
     };
 
-    // const response = (res) => {
-    //   console.log('статус сообщения:', res.status);
-    //   if (sendStatus === 'ok') {
-    //     changeSendStatus(sendStatus);
-    //     inputRef.current.focus();
-    //   }
-    // };
+    const response = (res) => {
+      console.log('статус сообщения:', res.status);
+    };
 
-    // socket.emit('newMessage', messContainer, response);
+    socket.emit('newChannel', container, response);
     handleClose();
   };
 

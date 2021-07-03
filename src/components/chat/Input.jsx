@@ -23,7 +23,6 @@ export default () => {
   useEffect(() => inputRef.current.focus(), []);
 
   const sendMess = async ({ message }, { resetForm }) => {
-    console.log('submit...', message);
     changeSendStatus('sending');
     const container = {
       chanalId: currentChanalId,
