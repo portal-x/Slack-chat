@@ -13,7 +13,6 @@ const buildwordEnding = (numPosts) => {
 };
 
 export default () => {
-  console.log('messagessList render...');
   const messages = useSelector(selectMssages);
   const currentChanalId = useSelector(selectCurrentChannelID);
   const channels = useSelector(selectChannels);

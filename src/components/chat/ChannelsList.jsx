@@ -16,13 +16,13 @@ import {
 import AddChanalModal from './modals/addChanal.jsx';
 import { switchAddChan } from '../../redux/modalSlise';
 
-const renderChannel = (channel) => {
+const Channel = ({ channel }) => {
   const dispatch = useDispatch();
   const currentChanalId = useSelector(selectCurrentChannelID);
   const { name, removable, id } = channel;
   const buttonVariant = id === currentChanalId ? 'secondary' : 'light';
 
-  const MainChannel = () => (
+  const Body = () => (
     <Button
       variant={buttonVariant}
       className="w-100 px-4 rounded-0 text-start"
@@ -35,7 +35,7 @@ const renderChannel = (channel) => {
 
   const CustomChannel = () => (
     <Dropdown as={ButtonGroup}>
-      <MainChannel />
+      <Body />
       <Dropdown.Toggle
         split
         variant={buttonVariant}
@@ -49,11 +49,7 @@ const renderChannel = (channel) => {
     </Dropdown>
   );
 
-  return (
-    <li className="nav-item" key={uniqueId()}>
-      {removable ? <CustomChannel /> : <MainChannel />}
-    </li>
-  );
+  return removable ? <CustomChannel /> : <Body />;
 };
 
 export default () => {
@@ -78,7 +74,11 @@ export default () => {
           </Button>
         </div>
         <ul className="nav nav-pills nav-fill flex-column">
-          {channels.map(renderChannel)}
+          {channels.map((channel) => (
+            <li className="nav-item" key={uniqueId()}>
+              <Channel channel={channel} />
+            </li>
+          ))}
         </ul>
       </Col>
       <AddChanalModal />
