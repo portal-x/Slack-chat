@@ -34,12 +34,13 @@ const Channel = ({ channel }) => {
   );
 
   const CustomChannel = () => (
-    <Dropdown as={ButtonGroup}>
+    <Dropdown as={ButtonGroup} className="d-flex">
       <Body />
       <Dropdown.Toggle
         split
         variant={buttonVariant}
         id="dropdown-split-basic"
+        className="rounded-0"
       />
       <Dropdown.Menu>
         <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
