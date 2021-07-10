@@ -34,7 +34,7 @@ const Channel = ({ channel }) => {
   );
 
   const CustomChannel = () => (
-    <Dropdown as={ButtonGroup} className="d-flex">
+    <Dropdown as={ButtonGroup} className="text-break w-100">
       <Body />
       <Dropdown.Toggle
         split
@@ -74,7 +74,7 @@ export default () => {
             +
           </Button>
         </div>
-        <ul className="nav nav-pills nav-fill flex-column">
+        <ul className="nav nav-pills nav-fill flex-column navbar-nav-scroll">
           {channels.map((channel) => (
             <li className="nav-item" key={uniqueId()}>
               <Channel channel={channel} />
