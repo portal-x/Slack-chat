@@ -25,7 +25,7 @@ const Channel = ({ channel }) => {
   const Body = () => (
     <Button
       variant={buttonVariant}
-      className="w-100 px-4 rounded-0 text-start"
+      className="w-100 rounded-0 text-start pe-0"
       onClick={() => dispatch(setCurrentChanelId(id))}
     >
       <span className="me-1">#</span>
@@ -42,7 +42,7 @@ const Channel = ({ channel }) => {
         id="dropdown-split-basic"
         className="rounded-0"
       />
-      <Dropdown.Menu>
+      <Dropdown.Menu className="position-fixed">
         <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
         <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
         <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
@@ -74,9 +74,9 @@ export default () => {
             +
           </Button>
         </div>
-        <ul className="nav nav-pills nav-fill flex-column navbar-nav-scroll">
+        <ul className="nav navbar-nav-scroll">
           {channels.map((channel) => (
-            <li className="nav-item" key={uniqueId()}>
+            <li className="nav-item w-100" key={uniqueId()}>
               <Channel channel={channel} />
             </li>
           ))}
