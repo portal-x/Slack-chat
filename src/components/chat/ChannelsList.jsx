@@ -43,9 +43,8 @@ const Channel = ({ channel }) => {
         className="rounded-0"
       />
       <Dropdown.Menu className="position-fixed">
-        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+        <Dropdown.Item href="#/action-1">Удалить</Dropdown.Item>
+        <Dropdown.Item href="#/action-2">Переименовать</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   );
