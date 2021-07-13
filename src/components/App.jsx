@@ -24,9 +24,11 @@ export default () => {
     dispatch(addMessages(mess));
   });
   socket.on('newChannel', (channal) => {
-    console.log('🚀 ~ socket.on ~ channal', channal.id);
     dispatch(addChannel(channal));
     dispatch(setCurrentChanelId(channal.id));
+  });
+  socket.on('removeChannel', ({ id }) => {
+    console.log('id from server:', id);
   });
 
   return (

@@ -13,8 +13,10 @@ import {
   selectCurrentChannelID,
   setCurrentChanelId,
 } from '../../redux/chatSlise';
-import AddChanalModal from './modals/addChanal.jsx';
-import { switchAddChan } from '../../redux/modalSlise';
+import AddChannelModal from './modals/addChannel.jsx';
+import { switchAddChan, switchRemoveChan, switchRenameChan } from '../../redux/modalSlise';
+import RemoveChanModal from './modals/RemoveChan.jsx';
+import RenameChan from './modals/RenameChan.jsx';
 
 const Channel = ({ channel }) => {
   const dispatch = useDispatch();
@@ -43,9 +45,11 @@ const Channel = ({ channel }) => {
         className="rounded-0"
       />
       <Dropdown.Menu className="position-fixed">
-        <Dropdown.Item href="#/action-1">Удалить</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">Переименовать</Dropdown.Item>
+        <Dropdown.Item href="#/action-1" onClick={() => dispatch(switchRemoveChan())}>Удалить</Dropdown.Item>
+        <Dropdown.Item href="#/action-2" onClick={() => dispatch(switchRenameChan())}>Переименовать</Dropdown.Item>
       </Dropdown.Menu>
+      <RemoveChanModal id={id} />
+      <RenameChan id={id} />
     </Dropdown>
   );
 
@@ -55,9 +59,6 @@ const Channel = ({ channel }) => {
 export default () => {
   const channels = useSelector(selectChannels);
   const dispatch = useDispatch();
-  const handleClick = () => {
-    dispatch(switchAddChan());
-  };
 
   return (
     <>
@@ -68,7 +69,7 @@ export default () => {
             variant="outline-primary"
             className="px-2 py-0"
             size="sm"
-            onClick={handleClick}
+            onClick={() => dispatch(switchAddChan())}
           >
             +
           </Button>
@@ -81,7 +82,7 @@ export default () => {
           ))}
         </ul>
       </Col>
-      <AddChanalModal />
+      <AddChannelModal />
     </>
   );
 };

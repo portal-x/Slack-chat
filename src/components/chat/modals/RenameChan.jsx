@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { selectShowAddChan, switchAddChan } from '../../../redux/modalSlise';
+import { selectShowRenameChan, switchRenameChan } from '../../../redux/modalSlise';
 import { selectChannels } from '../../../redux/chatSlise';
 import { UseSocket } from '../../../context/SocketContext.jsx';
 
@@ -13,10 +13,10 @@ export default () => {
   const dispatch = useDispatch();
   const channals = useSelector(selectChannels)
     .map(({ name }) => name);
-  const showModal = useSelector(selectShowAddChan);
+  const showModal = useSelector(selectShowRenameChan);
 
   const handleClose = () => {
-    dispatch(switchAddChan());
+    dispatch(switchRenameChan());
   };
 
   const shema = Yup.object().shape({
@@ -31,7 +31,6 @@ export default () => {
   useEffect(() => inputRef.current && inputRef.current.focus());
 
   const sendChanName = ({ channalName }) => {
-    console.log('submit...', channalName);
     const container = {
       name: channalName,
     };
@@ -47,7 +46,7 @@ export default () => {
   return (
     <Modal show={showModal} onHide={handleClose} centered>
       <Modal.Header>
-        <Modal.Title>Добавить канал</Modal.Title>
+        <Modal.Title>Переименовать канал</Modal.Title>
         <button
           type="button"
           className="btn-close"

@@ -20,6 +20,13 @@ export const slice = createSlice({
     addChannel: (state, { payload }) => {
       state.channels.push(payload);
     },
+    removeChannel: (state, { payload }) => {
+      console.log('rem chan from redux, payload:', payload);
+      state.channels = state.channels
+        .filter(({ id }) => id !== payload);
+      state.messages = state.messages
+        .filter(({ chanalId }) => chanalId !== payload);
+    },
     setCurrentChanelId: (state, { payload }) => {
       state.currentChannelID = payload;
     },
@@ -44,7 +51,12 @@ export const slice = createSlice({
   },
 });
 
-export const { addChannel, setCurrentChanelId, addMessages } = slice.actions;
+export const {
+  addChannel,
+  setCurrentChanelId,
+  addMessages,
+  removeChannel,
+} = slice.actions;
 
 export const selectChannels = (state) => state.chatReduser.channels;
 export const selectMssages = (state) => state.chatReduser.messages;
