@@ -8,12 +8,15 @@ import { selectShowRenameChan, switchRenameChan } from '../../../redux/modalSlis
 import { selectChannels } from '../../../redux/chatSlise';
 import { UseSocket } from '../../../context/SocketContext.jsx';
 
-export default () => {
+export default ({ channel }) => {
+  console.log('rename modal is started...');
   const socket = UseSocket();
   const dispatch = useDispatch();
   const channals = useSelector(selectChannels)
     .map(({ name }) => name);
   const showModal = useSelector(selectShowRenameChan);
+
+  const { id, name } = channel;
 
   const handleClose = () => {
     dispatch(switchRenameChan());
@@ -28,10 +31,16 @@ export default () => {
   });
 
   const inputRef = useRef();
-  useEffect(() => inputRef.current && inputRef.current.focus());
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+      inputRef.current.select();
+    }
+  });
 
-  const sendChanName = ({ channalName }) => {
+  const rename = ({ channalName }) => {
     const container = {
+      id,
       name: channalName,
     };
 
@@ -39,7 +48,7 @@ export default () => {
       console.log('статус сообщения:', res.status);
     };
 
-    socket.emit('newChannel', container, response);
+    socket.emit('renameChannel', container, response);
     handleClose();
   };
 
@@ -58,9 +67,9 @@ export default () => {
         <Formik
           validationSchema={shema}
           validateOnChange={false}
-          onSubmit={sendChanName}
+          onSubmit={rename}
           initialValues={{
-            channalName: '',
+            channalName: name,
           }}
         >
           {({

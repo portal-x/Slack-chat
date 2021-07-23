@@ -9,6 +9,7 @@ import {
 } from '../../../redux/modalSlise.js';
 
 export default ({ id }) => {
+  console.log('id from modal:', id);
   const socket = UseSocket();
   const dispatch = useDispatch();
 

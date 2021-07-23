@@ -20,7 +20,7 @@ export default () => {
   const [sendStatus, changeSendStatus] = useState('ok');
 
   const inputRef = useRef(null);
-  useEffect(() => inputRef.current.focus(), []);
+  useEffect(() => inputRef.current.focus());
 
   const sendMess = async ({ message }, { resetForm }) => {
     changeSendStatus('sending');
@@ -34,7 +34,7 @@ export default () => {
       console.log('статус сообщения:', res.status);
       if (sendStatus === 'ok') {
         changeSendStatus(sendStatus);
-        inputRef.current.focus();
+        inputRef.current.select();
       }
     };
 

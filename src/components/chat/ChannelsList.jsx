@@ -45,11 +45,14 @@ const Channel = ({ channel }) => {
         className="rounded-0"
       />
       <Dropdown.Menu className="position-fixed">
-        <Dropdown.Item href="#/action-1" onClick={() => dispatch(switchRemoveChan())}>Удалить</Dropdown.Item>
+        <Dropdown.Item href="#/action-1" onClick={() => {
+            console.log('id from cklick:', id);
+            dispatch(switchRemoveChan())
+          }}>Удалить</Dropdown.Item>
         <Dropdown.Item href="#/action-2" onClick={() => dispatch(switchRenameChan())}>Переименовать</Dropdown.Item>
       </Dropdown.Menu>
       <RemoveChanModal id={id} />
-      <RenameChan id={id} />
+      <RenameChan channel={channel} />
     </Dropdown>
   );
 
