@@ -10,7 +10,13 @@ import { useDispatch } from 'react-redux';
 
 import { UseUser } from '../context/UserContext.jsx';
 import { UseSocket } from '../context/SocketContext.jsx';
-import { addChannel, addMessages, setCurrentChanelId } from '../redux/chatSlise.js';
+import {
+  addChannel,
+  addMessages,
+  renameChannel,
+  setCurrentChanelId,
+  removeChannel,
+} from '../redux/chatSlise.js';
 import Chat from './chat/Chat.jsx';
 import Login from './Login.jsx';
 import NoMatch from './NoMatch.jsx';
@@ -28,7 +34,11 @@ export default () => {
     dispatch(setCurrentChanelId(channal.id));
   });
   socket.on('removeChannel', ({ id }) => {
-    console.log('id from server:', id);
+    dispatch(setCurrentChanelId(1));
+    dispatch(removeChannel(id));
+  });
+  socket.on('renameChannel', ({ id, name }) => {
+    dispatch(renameChannel({ id, newName: name }));
   });
 
   return (

@@ -2,9 +2,9 @@ import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { UseSocket } from '../../../context/SocketContext.jsx';
-import { removeChannel, setCurrentChanelId } from '../../../redux/chatSlise.js';
 import {
   selectShowRemChan,
+  switchAlarm,
   switchRemoveChan,
 } from '../../../redux/modalSlise.js';
 
@@ -18,9 +18,8 @@ export default ({ id }) => {
   const handleClose = () => dispatch(switchRemoveChan());
 
   const response = ({ status }) => {
-    if (status === 'ok') {
-      dispatch(setCurrentChanelId(1));
-      dispatch(removeChannel(id));
+    if (status !== 'ok') {
+      dispatch(switchAlarm());
     }
   };
   const hadleRemove = () => {

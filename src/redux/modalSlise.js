@@ -6,6 +6,7 @@ export const modalSlice = createSlice({
     showAddChan: false,
     showRemChan: false,
     showRenameChan: false,
+    showAlarm: false,
   },
   reducers: {
     switchAddChan: (state) => {
@@ -17,6 +18,9 @@ export const modalSlice = createSlice({
     switchRenameChan: (state) => {
       state.showRenameChan = !state.showRenameChan;
     },
+    switchAlarm: (state) => {
+      state.showAlarm = !state.showAlarm;
+    },
   },
 });
 
@@ -24,10 +28,12 @@ export const {
   switchAddChan,
   switchRemoveChan,
   switchRenameChan,
+  switchAlarm,
 } = modalSlice.actions;
 
 export const selectShowAddChan = (state) => state.modalReduser.showAddChan;
 export const selectShowRemChan = (state) => state.modalReduser.showRemChan;
 export const selectShowRenameChan = (state) => state.modalReduser.showRenameChan;
+export const selectShowAlarm = (state) => state.modalReduser.showAlarm;
 
 export default modalSlice.reducer;

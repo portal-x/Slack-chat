@@ -4,7 +4,7 @@ import {
   Dropdown,
   ButtonGroup,
 } from 'react-bootstrap';
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { uniqueId } from 'lodash';
 
@@ -17,8 +17,9 @@ import AddChannelModal from './modals/addChannel.jsx';
 import { switchAddChan, switchRemoveChan, switchRenameChan } from '../../redux/modalSlise';
 import RemoveChanModal from './modals/RemoveChan.jsx';
 import RenameChan from './modals/RenameChan.jsx';
+import Alarm from './modals/Alarm.jsx';
 
-const Channel = ({ channel }) => {
+const Channel = ({ channel, setId }) => {
   const dispatch = useDispatch();
   const currentChanalId = useSelector(selectCurrentChannelID);
   const { name, removable, id } = channel;
@@ -45,14 +46,25 @@ const Channel = ({ channel }) => {
         className="rounded-0"
       />
       <Dropdown.Menu className="position-fixed">
-        <Dropdown.Item href="#/action-1" onClick={() => {
-            console.log('id from cklick:', id);
-            dispatch(switchRemoveChan())
-          }}>Удалить</Dropdown.Item>
-        <Dropdown.Item href="#/action-2" onClick={() => dispatch(switchRenameChan())}>Переименовать</Dropdown.Item>
+        <Dropdown.Item
+          href="#/action-1"
+          onClick={() => {
+            dispatch(switchRemoveChan());
+            setId(id);
+          }}
+        >
+          Удалить
+        </Dropdown.Item>
+        <Dropdown.Item
+          href="#/action-2"
+          onClick={() => {
+            dispatch(switchRenameChan());
+            setId(id);
+          }}
+        >
+          Переименовать
+        </Dropdown.Item>
       </Dropdown.Menu>
-      <RemoveChanModal id={id} />
-      <RenameChan channel={channel} />
     </Dropdown>
   );
 
@@ -62,6 +74,7 @@ const Channel = ({ channel }) => {
 export default () => {
   const channels = useSelector(selectChannels);
   const dispatch = useDispatch();
+  const [procChanId, setProcChanId] = useState();
 
   return (
     <>
@@ -80,12 +93,15 @@ export default () => {
         <ul className="nav navbar-nav-scroll">
           {channels.map((channel) => (
             <li className="nav-item w-100" key={uniqueId()}>
-              <Channel channel={channel} />
+              <Channel channel={channel} setId={setProcChanId} />
             </li>
           ))}
         </ul>
       </Col>
       <AddChannelModal />
+      <RenameChan id={procChanId} />
+      <RemoveChanModal id={procChanId} />
+      <Alarm />
     </>
   );
 };

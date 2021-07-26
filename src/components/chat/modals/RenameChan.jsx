@@ -4,19 +4,18 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { selectShowRenameChan, switchRenameChan } from '../../../redux/modalSlise';
+import { selectShowRenameChan, switchAlarm, switchRenameChan } from '../../../redux/modalSlise';
 import { selectChannels } from '../../../redux/chatSlise';
 import { UseSocket } from '../../../context/SocketContext.jsx';
 
-export default ({ channel }) => {
-  console.log('rename modal is started...');
+export default ({ id: currId }) => {
   const socket = UseSocket();
   const dispatch = useDispatch();
-  const channals = useSelector(selectChannels)
-    .map(({ name }) => name);
+  const channals = useSelector(selectChannels);
   const showModal = useSelector(selectShowRenameChan);
 
-  const { id, name } = channel;
+  const currentChan = channals.find(({ id }) => id === currId);
+  const name = currentChan?.name || null;
 
   const handleClose = () => {
     dispatch(switchRenameChan());
@@ -40,12 +39,14 @@ export default ({ channel }) => {
 
   const rename = ({ channalName }) => {
     const container = {
-      id,
+      id: currId,
       name: channalName,
     };
 
-    const response = (res) => {
-      console.log('статус сообщения:', res.status);
+    const response = ({ status }) => {
+      if (status !== 'ok') {
+        dispatch(switchAlarm());
+      }
     };
 
     socket.emit('renameChannel', container, response);

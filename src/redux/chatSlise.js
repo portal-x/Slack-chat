@@ -27,6 +27,11 @@ export const slice = createSlice({
       state.messages = state.messages
         .filter(({ chanalId }) => chanalId !== payload);
     },
+    renameChannel: (state, { payload }) => {
+      const { id: currId, newName } = payload;
+      const currentChan = state.channels.find(({ id }) => id === currId);
+      currentChan.name = newName;
+    },
     setCurrentChanelId: (state, { payload }) => {
       state.currentChannelID = payload;
     },
@@ -56,6 +61,7 @@ export const {
   setCurrentChanelId,
   addMessages,
   removeChannel,
+  renameChannel,
 } = slice.actions;
 
 export const selectChannels = (state) => state.chatReduser.channels;
