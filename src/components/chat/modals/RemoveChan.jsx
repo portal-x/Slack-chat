@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { UseSocket } from '../../../context/SocketContext.jsx';
 import {
   selectShowRemChan,
-  switchAlarm,
+  changeButtStatus,
   switchRemoveChan,
 } from '../../../redux/modalSlise.js';
 
@@ -17,8 +17,8 @@ export default ({ id }) => {
   const handleClose = () => dispatch(switchRemoveChan());
 
   const response = ({ status }) => {
-    if (status !== 'ok') {
-      dispatch(switchAlarm());
+    if (status === 'ok') {
+      dispatch(changeButtStatus('show'));
     }
   };
   const hadleRemove = () => {

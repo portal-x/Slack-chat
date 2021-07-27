@@ -14,13 +14,19 @@ import {
   setCurrentChanelId,
 } from '../../redux/chatSlise';
 import AddChannelModal from './modals/addChannel.jsx';
-import { switchAddChan, switchRemoveChan, switchRenameChan } from '../../redux/modalSlise';
+import {
+  changeButtStatus,
+  selectButtStatus,
+  switchAddChan,
+  switchRemoveChan,
+  switchRenameChan,
+} from '../../redux/modalSlise';
 import RemoveChanModal from './modals/RemoveChan.jsx';
 import RenameChan from './modals/RenameChan.jsx';
-import Alarm from './modals/Alarm.jsx';
 
 const Channel = ({ channel, setId }) => {
   const dispatch = useDispatch();
+  const buttStatus = useSelector(selectButtStatus);
   const currentChanalId = useSelector(selectCurrentChannelID);
   const { name, removable, id } = channel;
   const buttonVariant = id === currentChanalId ? 'secondary' : 'light';
@@ -50,8 +56,10 @@ const Channel = ({ channel, setId }) => {
           href="#/action-1"
           onClick={() => {
             dispatch(switchRemoveChan());
+            dispatch(changeButtStatus('lock'));
             setId(id);
           }}
+          disabled={buttStatus === 'lock'}
         >
           Удалить
         </Dropdown.Item>
@@ -59,8 +67,10 @@ const Channel = ({ channel, setId }) => {
           href="#/action-2"
           onClick={() => {
             dispatch(switchRenameChan());
+            dispatch(changeButtStatus('lock'));
             setId(id);
           }}
+          disabled={buttStatus === 'lock'}
         >
           Переименовать
         </Dropdown.Item>
@@ -101,7 +111,6 @@ export default () => {
       <AddChannelModal />
       <RenameChan id={procChanId} />
       <RemoveChanModal id={procChanId} />
-      <Alarm />
     </>
   );
 };

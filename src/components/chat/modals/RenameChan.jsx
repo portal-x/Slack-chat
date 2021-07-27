@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { selectShowRenameChan, switchAlarm, switchRenameChan } from '../../../redux/modalSlise';
+import { selectShowRenameChan, changeButtStatus, switchRenameChan } from '../../../redux/modalSlise';
 import { selectChannels } from '../../../redux/chatSlise';
 import { UseSocket } from '../../../context/SocketContext.jsx';
 
@@ -44,8 +44,8 @@ export default ({ id: currId }) => {
     };
 
     const response = ({ status }) => {
-      if (status !== 'ok') {
-        dispatch(switchAlarm());
+      if (status === 'ok') {
+        dispatch(changeButtStatus());
       }
     };
 
