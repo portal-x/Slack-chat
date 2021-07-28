@@ -20,9 +20,9 @@ import {
 import Chat from './chat/Chat.jsx';
 import Login from './Login.jsx';
 import NoMatch from './NoMatch.jsx';
+import Logout from './Logout.jsx';
 
 export default () => {
-  console.log('App is connected...');
   const socket = UseSocket();
   const dispatch = useDispatch();
 
@@ -54,6 +54,7 @@ export default () => {
               <Link className="navbar-brand" to="/">
                 Chat
               </Link>
+              <Logout />
             </div>
           </nav>
         </header>
