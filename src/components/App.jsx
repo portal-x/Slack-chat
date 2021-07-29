@@ -21,12 +21,15 @@ import Chat from './chat/Chat.jsx';
 import Login from './Login.jsx';
 import NoMatch from './NoMatch.jsx';
 import Logout from './Logout.jsx';
+import Registration from './Registration.jsx';
 
 export default () => {
+  console.log('app is connected...');
   const socket = UseSocket();
   const dispatch = useDispatch();
 
   socket.on('newMessage', (mess) => {
+    console.log('новое сообщение, добавляем:', mess);
     dispatch(addMessages(mess));
   });
   socket.on('newChannel', (channal) => {
@@ -41,6 +44,8 @@ export default () => {
     dispatch(renameChannel({ id, newName: name }));
   });
 
+  const { user } = UseUser();
+
   return (
     <Router>
       <div className="d-flex flex-column h-100">
@@ -54,7 +59,7 @@ export default () => {
               <Link className="navbar-brand" to="/">
                 Chat
               </Link>
-              <Logout />
+              {user && <Logout />}
             </div>
           </nav>
         </header>
@@ -63,7 +68,10 @@ export default () => {
             <Login />
           </Route>
           <Route exact path="/">
-            {!UseUser().user ? <Redirect to="/login" /> : <Chat />}
+            {!user ? <Redirect to="/login" /> : <Chat />}
+          </Route>
+          <Route exact path="/signup">
+            <Registration />
           </Route>
           <Route>
             <NoMatch />

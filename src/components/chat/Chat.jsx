@@ -15,7 +15,6 @@ const maping = {
 };
 
 export default () => {
-  console.log('chat is connected');
   const dispatch = useDispatch();
 
   const { user } = UseUser();

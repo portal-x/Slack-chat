@@ -8,6 +8,7 @@ export const UserProvider = ({ children }) => {
   const prewUser = JSON.parse(prewUserData);
 
   const [user, setUser] = useState(prewUser || null);
+  console.log('user from context:', user?.username || 'nothing');
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

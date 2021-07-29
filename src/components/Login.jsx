@@ -29,6 +29,7 @@ export default () => {
         setUser(authUser);
         localStorage.setItem('user', JSON.stringify(authUser));
         history.push('/');
+        window.location.reload();
       } catch (e) {
         setError('Неверные имя пользователя или пароль');
       }

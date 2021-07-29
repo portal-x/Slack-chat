@@ -55,6 +55,7 @@ export default (app, defaultState = {}) => {
         id: getNextId(),
       };
       state.messages.push(messageWithId);
+      console.log('+-+-+-+-+-+-+-сообщения на сервере:', state.messages); // for remove
       acknowledge({ status: 'ok' });
       app.io.emit('newMessage', messageWithId);
       console.log('......отправка на клиент:', messageWithId); // for remove

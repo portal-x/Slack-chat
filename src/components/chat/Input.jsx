@@ -31,9 +31,8 @@ export default () => {
     };
 
     const response = (res) => {
-      console.log('статус сообщения:', res.status);
-      if (sendStatus === 'ok') {
-        changeSendStatus(sendStatus);
+      if (res.status === 'ok') {
+        changeSendStatus('ok');
         inputRef.current.select();
       }
     };
