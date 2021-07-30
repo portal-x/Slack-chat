@@ -3,23 +3,42 @@ import { Form, Button } from 'react-bootstrap';
 import React, { useEffect, useRef, useState } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
+import { UseUser } from '../context/UserContext.jsx';
 
 export default () => {
   const [password, setPassword] = useState('bye');
+
   const shema = Yup.object().shape({
     name: Yup.string()
       .required('Обязательное поле')
       .min(3, 'От 3 до 20 символов')
       .max(20, 'От 3 до 20 символов'),
     pass: Yup.string().required('Обязательное поле').min(6, 'не менее 6 символов'),
-    rePass: Yup.string().required('Обязательное поле').matches(password),
+    rePass: Yup.string().required('Обязательное поле').matches(password, 'Пароли должны совпадать'),
   });
 
   const [sendStatus, changeSendStatus] = useState('ok');
+  const { setUser } = UseUser();
+  const history = useHistory();
 
-  const register = ({ name, pass, rePass }, { resetForm }) => {
-    console.log(name, pass, rePass);
-    resetForm();
+  const register = async ({ name: username, pass }, { resetForm }) => {
+    try {
+      const { data: authUser } = await axios
+        .post('/api/v1/signup', { username, password: pass });
+      setUser(authUser);
+      localStorage.setItem('user', JSON.stringify(authUser));
+      console.log('успех');
+      history.push('/');
+      // window.location.reload();
+      resetForm();
+    } catch (e) {
+      if (e.message.includes('409')) {
+        console.log('Такой пользователь уже есть');
+      }
+      // setError('Такой пользователь уже существует');
+    }
   };
 
   const inputRef = useRef(null);
@@ -81,7 +100,10 @@ export default () => {
                           placeholder="Пароль"
                           value={values.pass}
                           onChange={handleChange}
-                          onBlur={() => validateField('pass')}
+                          onBlur={() => {
+                            setPassword(values.pass);
+                            validateField('pass');
+                          }}
                           isInvalid={errors.pass?.length}
                           disabled={sendStatus === 'sending'}
                         />
