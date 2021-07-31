@@ -8,15 +8,19 @@ import { useHistory } from 'react-router-dom';
 import { UseUser } from '../context/UserContext.jsx';
 
 export default () => {
-  const [password, setPassword] = useState('bye');
-
   const shema = Yup.object().shape({
     name: Yup.string()
       .required('Обязательное поле')
       .min(3, 'От 3 до 20 символов')
       .max(20, 'От 3 до 20 символов'),
     pass: Yup.string().required('Обязательное поле').min(6, 'не менее 6 символов'),
-    rePass: Yup.string().required('Обязательное поле').matches(password, 'Пароли должны совпадать'),
+    rePass: Yup.string().when('pass', {
+      is: (val) => (!!(val && val.length > 0)),
+      then: Yup.string().oneOf(
+        [Yup.ref('pass')],
+        'Пароли должны совпадать',
+      ),
+    }),
   });
 
   const [sendStatus, changeSendStatus] = useState('ok');
@@ -100,10 +104,7 @@ export default () => {
                           placeholder="Пароль"
                           value={values.pass}
                           onChange={handleChange}
-                          onBlur={() => {
-                            setPassword(values.pass);
-                            validateField('pass');
-                          }}
+                          onBlur={() => validateField('pass')}
                           isInvalid={errors.pass?.length}
                           disabled={sendStatus === 'sending'}
                         />
