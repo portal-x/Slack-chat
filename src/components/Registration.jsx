@@ -27,7 +27,7 @@ export default () => {
   const { setUser } = UseUser();
   const history = useHistory();
 
-  const register = async ({ name: username, pass }, { resetForm }) => {
+  const register = async ({ name: username, pass }, { resetForm, setFieldError }) => {
     try {
       const { data: authUser } = await axios
         .post('/api/v1/signup', { username, password: pass });
@@ -35,13 +35,12 @@ export default () => {
       localStorage.setItem('user', JSON.stringify(authUser));
       console.log('успех');
       history.push('/');
-      // window.location.reload();
       resetForm();
+      window.location.reload();
     } catch (e) {
       if (e.message.includes('409')) {
-        console.log('Такой пользователь уже есть');
+        setFieldError('name', 'Такой пользователь уже есть');
       }
-      // setError('Такой пользователь уже существует');
     }
   };
 
