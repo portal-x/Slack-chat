@@ -28,6 +28,7 @@ export default () => {
   const history = useHistory();
 
   const register = async ({ name: username, pass }, { resetForm, setFieldError }) => {
+    changeSendStatus('sending');
     try {
       const { data: authUser } = await axios
         .post('/api/v1/signup', { username, password: pass });
@@ -40,6 +41,7 @@ export default () => {
     } catch (e) {
       if (e.message.includes('409')) {
         setFieldError('name', 'Такой пользователь уже есть');
+        changeSendStatus('ok');
       }
     }
   };
@@ -130,7 +132,7 @@ export default () => {
                       </Form.Group>
                       <Button
                         type="submit"
-                        disabled={!isValid}
+                        disabled={!isValid || sendStatus === 'sending'}
                         variant="outline-primary"
                         className="w-100"
                       >
