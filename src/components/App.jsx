@@ -45,7 +45,7 @@ export default () => {
   const { user } = UseUser();
 
   return (
-    <Router>
+    <Router className="h-100">
       <div className="d-flex flex-column h-100">
         <header>
           <nav
@@ -75,6 +75,15 @@ export default () => {
             <NoMatch />
           </Route>
         </Switch>
+        <footer className="text-end me-4">
+          <span>
+            © 2021 Developed by
+            &nbsp;
+            <a href="https://github.com/portal-x">Yurii Tkachuk</a>
+            &nbsp;
+            (Юрий Ткачук)
+          </span>
+        </footer>
       </div>
     </Router>
   );
