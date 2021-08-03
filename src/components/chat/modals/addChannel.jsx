@@ -30,17 +30,20 @@ export default () => {
   const inputRef = useRef();
   useEffect(() => inputRef.current && inputRef.current.focus());
 
-  const sendChanName = ({ channalName }) => {
+  const sendChanName = async ({ channalName }, { setFieldError }) => {
     const container = {
       name: channalName,
     };
 
     const response = (res) => {
-      console.log('статус сообщения:', res.status);
+      if (res.status === 'ok') {
+        handleClose();
+      } else {
+        setFieldError('channalName', 'сервер не отвечает...');
+      }
     };
 
-    socket.emit('newChannel', container, response);
-    handleClose();
+    socket.emit('newChannel', container, await response);
   };
 
   return (

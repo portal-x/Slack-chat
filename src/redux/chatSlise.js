@@ -21,7 +21,6 @@ export const slice = createSlice({
       state.channels.push(payload);
     },
     removeChannel: (state, { payload }) => {
-      console.log('rem chan from redux, payload:', payload);
       state.channels = state.channels
         .filter(({ id }) => id !== payload);
       state.messages = state.messages

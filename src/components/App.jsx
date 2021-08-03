@@ -24,12 +24,10 @@ import Logout from './Logout.jsx';
 import Registration from './Registration.jsx';
 
 export default () => {
-  console.log('app is connected...');
   const socket = UseSocket();
   const dispatch = useDispatch();
 
   socket.on('newMessage', (mess) => {
-    console.log('новое сообщение, добавляем:', mess);
     dispatch(addMessages(mess));
   });
   socket.on('newChannel', (channal) => {

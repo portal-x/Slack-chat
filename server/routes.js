@@ -43,23 +43,14 @@ export default (app, defaultState = {}) => {
   const state = buildState(defaultState);
 
   app.io.on('connect', (socket) => {
-    console.log('---------> id info:', { 'socket.id': socket.id });
-
-    socket.on('disconnect', (reason) => { // for remove
-      console.log('причина дисконекта:', reason);
-    });
-
     socket.on('newMessage', (message, acknowledge = _.noop) => {
       const messageWithId = {
         ...message,
         id: getNextId(),
       };
       state.messages.push(messageWithId);
-      console.log('+-+-+-+-+-+-+-сообщения на сервере:', state.messages); // for remove
       acknowledge({ status: 'ok' });
       app.io.emit('newMessage', messageWithId);
-      console.log('......отправка на клиент:', messageWithId); // for remove
-      console.log('===> текущие соединения:', app.io.allSockets()); // for remove
     });
 
     socket.on('newChannel', (channel, acknowledge = _.noop) => {
@@ -72,7 +63,6 @@ export default (app, defaultState = {}) => {
       state.channels.push(channelWithId);
       acknowledge({ status: 'ok', data: channelWithId });
       app.io.emit('newChannel', channelWithId);
-      console.log('......отправка на клиент:', channelWithId); // for remove
     });
 
     socket.on('removeChannel', ({ id }, acknowledge = _.noop) => {

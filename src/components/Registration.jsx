@@ -34,7 +34,6 @@ export default () => {
         .post('/api/v1/signup', { username, password: pass });
       setUser(authUser);
       localStorage.setItem('user', JSON.stringify(authUser));
-      console.log('успех');
       history.push('/');
       resetForm();
       window.location.reload();
