@@ -84,7 +84,8 @@ const Channel = ({ channel, setId }) => {
 export default () => {
   const channels = useSelector(selectChannels);
   const dispatch = useDispatch();
-  const [procChanId, setProcChanId] = useState();
+  const [currentChanId, setCurrentChanId] = useState();
+  const [status, setStatus] = useState('ok');
 
   return (
     <>
@@ -96,6 +97,7 @@ export default () => {
             className="px-2 py-0"
             size="sm"
             onClick={() => dispatch(switchAddChan())}
+            disabled={status !== 'ok'}
           >
             +
           </Button>
@@ -103,14 +105,14 @@ export default () => {
         <ul className="nav navbar-nav-scroll">
           {channels.map((channel) => (
             <li className="nav-item w-100" key={uniqueId()}>
-              <Channel channel={channel} setId={setProcChanId} />
+              <Channel channel={channel} setId={setCurrentChanId} />
             </li>
           ))}
         </ul>
       </Col>
-      <AddChannelModal />
-      <RenameChan id={procChanId} />
-      <RemoveChanModal id={procChanId} />
+      <AddChannelModal setStatus={setStatus} />
+      <RenameChan id={currentChanId} />
+      <RemoveChanModal id={currentChanId} />
     </>
   );
 };

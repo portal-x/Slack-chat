@@ -8,7 +8,7 @@ import { selectShowAddChan, switchAddChan } from '../../../redux/modalSlise';
 import { selectChannels } from '../../../redux/chatSlise';
 import { UseSocket } from '../../../context/SocketContext.jsx';
 
-export default () => {
+export default ({ setStatus }) => {
   const socket = UseSocket();
   const dispatch = useDispatch();
   const channals = useSelector(selectChannels)
@@ -31,18 +31,18 @@ export default () => {
   useEffect(() => inputRef.current && inputRef.current.focus());
 
   const sendChanName = async ({ channalName }, { setFieldError }) => {
+    setStatus('sending');
     const container = {
       name: channalName,
     };
 
     const response = (res) => {
       if (res.status === 'ok') {
-        console.log('status ok');
-        handleClose();
+        setStatus('ok');
       } else {
-        console.log('network problem', res);
         setFieldError('channalName', 'сервер не отвечает...');
       }
+      handleClose();
     };
 
     socket.emit('newChannel', container, await response);
