@@ -37,8 +37,10 @@ export default () => {
 
     const response = (res) => {
       if (res.status === 'ok') {
+        console.log('status ok');
         handleClose();
       } else {
+        console.log('network problem', res);
         setFieldError('channalName', 'сервер не отвечает...');
       }
     };
