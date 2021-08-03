@@ -42,10 +42,10 @@ export default ({ setStatus }) => {
       } else {
         setFieldError('channalName', 'сервер не отвечает...');
       }
-      handleClose();
     };
 
     socket.emit('newChannel', container, await response);
+    handleClose();
   };
 
   return (
